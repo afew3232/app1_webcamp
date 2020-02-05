@@ -1,0 +1,12 @@
+<!--メッセージ-->
+<% if flash[:notice] %>
+	<p class="color-green"><%= flash[:notice] %></p>
+<% end %>
+
+<p><strong>Title: </strong><%= @book.title %></p>
+<p><strong>Body: </strong><%= @book.body %></p>
+<%= link_to 'Edit', edit_book_path %>
+<span>|<span>
+<%= link_to 'Back', books_path, method: :get %>
+<!--書換可能  link_to Back, books_path -->
+<!--link_to の初期メソッドはgetなので省略できる-->

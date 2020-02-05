@@ -1,0 +1,45 @@
+<!--メッセージ-->
+<% if flash[:notice] %>
+	<p class="color-green"><%= flash[:notice] %></p>
+<% end %>
+
+
+<h1 class="index-title">Books</h1>
+
+<table class="index-table">
+	<thead class="index-thead">
+		<tr class="index-tr">
+			<th class="index-th">Title</th>
+			<th class="index-th">Body</th>
+			<th class="index-th"></th>
+			<th class="index-th"></th>
+			<th class="index-th"></th>
+		</tr>
+	</thead>
+
+	<% @books.each do |book| %>
+	<tbody class="index-tbody">
+		<tr class="index-tr">
+			<td class="index-td"><%= book.title %></td>
+			<td class="index-td"><%= book.body %></td>
+			<td class="index-td"><%= link_to 'Show', book_path(book) %></td>
+			<!--book_path(book.id)でも可　(省略)-->
+			<td class="index-td"><%= link_to 'Edit', edit_book_path(book) %></td>
+			<td class="index-td"><%= link_to 'Destroy', book_path(book), method: :delete %></td>
+			<!--method: :delete の :delete は [rake routes]コマンドで表示されるルーティングのDELETEのことを指す　→ routes経由でdestroyアクションできる-->
+		</tr>
+	</tbody>
+	<% end %>
+
+</table>
+
+<%= form_for (@book) do |f| %>
+<h2 class="index-title2">New book</h2>
+<p class="index-input">Title</p>
+<%= f.text_field :title, :class =>'margin-b-10px'%>
+<p class="index-input">Body</p>
+<%= f.text_area :body, :class =>'margin-b-10px' %>
+<div>
+	<%= f.submit 'Create Book' %>
+</div>
+<% end %>
