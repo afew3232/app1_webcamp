@@ -1,8 +1,29 @@
-
-
 <h1>Editing Book</h1>
 
 <%= form_for (@book) do |f| %>
+
+<% if @book_error.errors.any? %>
+<div class = "error-main">
+	<h2 class="error-message"><%= @book_error.errors.count%> errors prohibited this book from being saved:</h2>
+	<ul>
+		<% @book_error.errors.full_messages.each do |message| %>
+		<li class="error-li"><%= message %></li>
+		<% end %>
+	</ul>
+</div>
+
+	<p class="edit-input error-input">Title</p>
+	<div class="error-input margin-b-10px">
+		<%= f.text_field :title %>
+	</div>
+	<p class="edit-input error-input">Body</p>
+	<div class="error-input margin-b-10px">
+		<%= f.text_area :body %>
+	</div>
+	<div class="margin-b-10px">
+		<%= f.submit 'Update Book' %>
+	</div>
+<% else %>
 	<p class="edit-input">Title</p>
 	<%= f.text_field :title, :class =>'margin-b-10px' %>
 	<p class="edit-input">Body</p>
@@ -10,7 +31,8 @@
 	<div class="margin-b-10px">
 		<%= f.submit 'Update Book' %>
 	</div>
-<% end %>
+<% end %> <!--if else end-->
+<% end %> <!--form for end-->
 
 
 <%= link_to 'Show', book_path %>

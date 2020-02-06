@@ -1,6 +1,6 @@
 <!--メッセージ-->
 <% if flash[:notice] %>
-	<p class="color-green"><%= flash[:notice] %></p>
+<p class="color-green"><%= flash[:notice] %></p>
 <% end %>
 
 
@@ -25,7 +25,7 @@
 			<td class="index-td"><%= link_to 'Show', book_path(book) %></td>
 			<!--book_path(book.id)でも可　(省略)-->
 			<td class="index-td"><%= link_to 'Edit', edit_book_path(book) %></td>
-			<td class="index-td"><%= link_to 'Destroy', book_path(book), method: :delete %></td>
+			<td class="index-td"><%= link_to 'Destroy', book_path(book), method: :delete, data: {confirm:"Are you sure?"} %></td>
 			<!--method: :delete の :delete は [rake routes]コマンドで表示されるルーティングのDELETEのことを指す　→ routes経由でdestroyアクションできる-->
 		</tr>
 	</tbody>
@@ -35,6 +35,29 @@
 
 <%= form_for (@book) do |f| %>
 <h2 class="index-title2">New book</h2>
+
+<% if @books_error.errors.any? %> 
+<!-- errorが発生したときの条件分岐。modelはパーシャルで渡されたフォームのオブジェクトの変数。（詳細は後述）-->
+<div class = "error-main">
+	<h2 class="error-message"><%= @books_error.errors.count%> errors prohibited this book from being saved:</h2>
+	<ul>
+		<% @books_error.errors.full_messages.each do |message| %>
+		<li class="error-li"><%= message %></li>
+		<% end %>
+	</ul>
+</div>
+<p class="index-input error-input">Title</p>
+<div class="error-input margin-b-10px">
+	<%= f.text_field :title%>
+</div>
+<p class="index-input error-input">Body</p>
+<div class="error-input margin-b-10px">
+	<%= f.text_area :body%>
+</div>
+<div>
+	<%= f.submit 'Create Book' %>
+</div>
+<% else %>
 <p class="index-input">Title</p>
 <%= f.text_field :title, :class =>'margin-b-10px'%>
 <p class="index-input">Body</p>
@@ -42,4 +65,6 @@
 <div>
 	<%= f.submit 'Create Book' %>
 </div>
-<% end %>
+<% end %><!--if else end-->
+
+<% end %><!--form_for end-->
